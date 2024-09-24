@@ -9,78 +9,107 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Item>
+    private let infoView = InformationView()
+    @State var isSelected = true
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-                    } label: {
-                        Text(item.timestamp!, formatter: itemFormatter)
+            ZStack {
+                AsyncImage(url: URL(string: "https://imgur.com/azYafd8.jpg")) { image in
+                    if let image = image.image {
+                        image.resizable()
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .frame(
+                    minWidth: 0,
+                    idealWidth: 500,
+                    maxWidth: 600,
+                    minHeight: 0,
+                    idealHeight: 600,
+                    maxHeight: 950
+                )
+                .edgesIgnoringSafeArea(.top)
+                .sheet(isPresented: $isSelected, content: {
+                    InformationView()
+                        .frame(
+                            minWidth: 0,
+                            idealWidth: 450,
+                            maxWidth: 500,
+                            minHeight: 0,
+                            idealHeight: 450,
+                            maxHeight: 950
+                        )
+                        .background(.black)
+                        .cornerRadius(14.0)
+                        .presentationDetents([.fraction(0.7)])
+                        .ignoresSafeArea()
+                })
             }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+        }
+        .statusBarHidden()
+        .onAppear(perform: {
+            Task(priority: .high) {
+                guard let url = URL(string: "https://api.spacexdata.com/v4/rockets") else { return }
+                NetworkService.shared.fetchData(url: url) { result in
+                    switch result {
+                    case .success(let success):
+                        let decoder = JSONDecoder()
+                        do {
+                            let newModel = try decoder.decode([NetworkModel].self, from: success)
+                            print(newModel.count)
+                        } catch let DecodingError.dataCorrupted(context) {
+                            print(context)
+                        } catch let DecodingError.keyNotFound(key, context) {
+                            print("Key '\(key)' not found:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch let DecodingError.valueNotFound(value, context) {
+                            print("Value '\(value)' not found:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch let DecodingError.typeMismatch(type, context)  {
+                            print("Type '\(type)' mismatch:", context.debugDescription)
+                            print("codingPath:", context.codingPath)
+                        } catch {
+                            print(error.localizedDescription)
+                        }
+
+                    case .failure(let failure):
+                        print("\(failure.localizedDescription)")
                     }
                 }
             }
-            Text("Select an item")
-        }
+        })
     }
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(context: viewContext)
-            newItem.timestamp = Date()
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ContentView()
 }
+
+
+//private func addItem() {
+//    withAnimation {
+//        let newItem = Item(context: viewContext)
+//        newItem.timestamp = Date()
+//
+//        do {
+//            try viewContext.save()
+//        } catch {
+//            let nsError = error as NSError
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//        }
+//    }
+//}
+//
+//private func deleteItems(offsets: IndexSet) {
+//    withAnimation {
+//        offsets.map { items[$0] }.forEach(viewContext.delete)
+//
+//        do {
+//            try viewContext.save()
+//        } catch {
+//            let nsError = error as NSError
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//        }
+//    }
+//}
