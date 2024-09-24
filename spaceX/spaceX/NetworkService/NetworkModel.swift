@@ -7,13 +7,13 @@
 
 
 struct NetworkModel: Decodable {
-    let height: SpaceRocketHeight
-    let diamter: SpaceRocketDiameter
-    let engines: SpaceRocketEngines
-    let firstStage: SpaceRocketFirstStage
-    let secondStage: SpaceRocketSecondStage
-    let landingLegs: SpaceRocketLandingLegs
-    let payloadWeight: [SpaceRocketPayloadWeight]
+    let height: NetworkRocketParam
+    let diamter: NetworkRocketParam
+    let engines: NetworkRocketEngines
+    let firstStage: NetworkRocketFirstStage
+    let secondStage: NetworkRocketSecondStage
+    let landingLegs: NetworkRocketLegs
+    let payloadWeight: [NetworkRocketPayloadWeight]
     let flickImages: [String]
     let name: String
     let type: String
@@ -52,24 +52,19 @@ struct NetworkModel: Decodable {
     }
 }
 
-struct SpaceRocketDiameter: Decodable {
+struct NetworkRocketParam: Decodable {
     let meters: Double?
     let feet: Double?
 }
 
-struct SpaceRocketHeight: Decodable {
-    let meters: Double?
-    let feet: Double?
-}
-
-struct SpaceRocketMass: Decodable {
+struct NetworkRocketMass: Decodable {
     let kg: Double?
     let lb: Double?
 }
 
-struct SpaceRocketFirstStage: Decodable {
-    let thrustSeaLevel: SpaceRocketThrust
-    let thrustVacuum: SpaceRocketThrust
+struct NetworkRocketFirstStage: Decodable {
+    let thrustSeaLevel: NetworkRocketThrust
+    let thrustVacuum: NetworkRocketThrust
     let reusable: Bool
     let engines: Int?
     let fuelAmountTons: Double
@@ -85,9 +80,9 @@ struct SpaceRocketFirstStage: Decodable {
     }
 }
 
-struct SpaceRocketSecondStage: Decodable {
-    let thrust: SpaceRocketThrust
-    let payloads: SpaceRocketPayloads
+struct NetworkRocketSecondStage: Decodable {
+    let thrust: NetworkRocketThrust
+    let payloads: NetworkRocketPayloads
     let reusable: Bool
     let engines: Int?
     let fueldAmountTons: Double?
@@ -104,13 +99,13 @@ struct SpaceRocketSecondStage: Decodable {
 }
 
 
-struct SpaceRocketThrust: Decodable {
+struct NetworkRocketThrust: Decodable {
     let kN: Double
     let lbf: Double
 }
 
-struct SpaceRocketPayloads: Decodable {
-    let compositeFairing: SpaceRocketFairing
+struct NetworkRocketPayloads: Decodable {
+    let compositeFairing: NetworkModelFairing
     let option: String
 
     private enum CodingKeys: String, CodingKey {
@@ -119,15 +114,15 @@ struct SpaceRocketPayloads: Decodable {
     }
 }
 
-struct SpaceRocketFairing: Decodable {
-    let height: SpaceRocketHeight
-    let diameter: SpaceRocketDiameter
+struct NetworkModelFairing: Decodable {
+    let height: NetworkRocketParam
+    let diameter: NetworkRocketParam
 }
 
-struct SpaceRocketEngines: Decodable {
-    let isp: SpaceEngineIsp
-    let thrustSeaLevel: SpaceRocketThrust
-    let thrustVacuum: SpaceRocketThrust
+struct NetworkRocketEngines: Decodable {
+    let isp: NetworkRocketIsp
+    let thrustSeaLevel: NetworkRocketThrust
+    let thrustVacuum: NetworkRocketThrust
     let number: Int
     let tupe: String
     let version: String
@@ -152,7 +147,7 @@ struct SpaceRocketEngines: Decodable {
     }
 }
 
-struct SpaceEngineIsp: Decodable {
+struct NetworkRocketIsp: Decodable {
     let seaLevel: Double
     let vacuum: Double
 
@@ -162,12 +157,12 @@ struct SpaceEngineIsp: Decodable {
     }
 }
 
-struct SpaceRocketLandingLegs: Decodable {
+struct NetworkRocketLegs: Decodable {
     let number: Int
     let material: String?
 }
 
-struct SpaceRocketPayloadWeight: Decodable {
+struct NetworkRocketPayloadWeight: Decodable {
     let id: String
     let name: String
     let kg: Double

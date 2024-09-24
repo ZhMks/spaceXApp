@@ -44,40 +44,26 @@ struct ContentView: View {
                         .presentationDetents([.fraction(0.7)])
                         .ignoresSafeArea()
                 })
+                .interactiveDismissDisabled(true)
             }
         }
-        .statusBarHidden()
         .onAppear(perform: {
             Task(priority: .high) {
-                guard let url = URL(string: "https://api.spacexdata.com/v4/rockets") else { return }
-                NetworkService.shared.fetchData(url: url) { result in
+                let url =  "https://api.spacexdata.com/v4/rockets"
+                let networkService = NetworkService.shared
+                let decoderService = DecoderService()
+                let dataSource = DataSourceService(networkService: networkService, decoderService: decoderService)
+                dataSource.fetchData(urlString: url) { result in
                     switch result {
-                    case .success(let success):
-                        let decoder = JSONDecoder()
-                        do {
-                            let newModel = try decoder.decode([NetworkModel].self, from: success)
-                            print(newModel.count)
-                        } catch let DecodingError.dataCorrupted(context) {
-                            print(context)
-                        } catch let DecodingError.keyNotFound(key, context) {
-                            print("Key '\(key)' not found:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        } catch let DecodingError.valueNotFound(value, context) {
-                            print("Value '\(value)' not found:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        } catch let DecodingError.typeMismatch(type, context)  {
-                            print("Type '\(type)' mismatch:", context.debugDescription)
-                            print("codingPath:", context.codingPath)
-                        } catch {
-                            print(error.localizedDescription)
-                        }
-
+                    case .success(let responseModel):
+                        print(responseModel.count)
                     case .failure(let failure):
-                        print("\(failure.localizedDescription)")
+                        print(failure.localizedDescription)
                     }
                 }
             }
         })
+        .statusBarHidden()
     }
 
 }

@@ -23,8 +23,12 @@ enum NetworkErrors: Error {
     }
 }
 
+protocol INetworkService {
+    func fetchData(url: URL, completion: @escaping (Result<Data, NetworkErrors>) -> Void)
+}
 
-final class NetworkService {
+
+final class NetworkService: INetworkService {
     static let shared = NetworkService()
 
     private init() {}

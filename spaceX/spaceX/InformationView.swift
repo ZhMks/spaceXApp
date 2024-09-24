@@ -9,36 +9,39 @@ import SwiftUI
 
 struct InformationView: View {
     var body: some View {
-        HStack {
-            Text("Test Text")
-                .padding()
-                .foregroundStyle(.white)
-            Spacer()
-            Button(action: {
-                
-            }) {
-                Image(systemName: "gearshape", variableValue: nil)
-                    .foregroundStyle(.white)
-            }
-        }
-        .padding()
-        ScrollView(.horizontal) {
+        Group {
             HStack {
-                Rectangle().foregroundStyle(.red)
-                    .frame(width: 150, height: 120)
-                    .cornerRadius(15)
-                Rectangle().foregroundStyle(.white)
-                    .frame(width: 150, height: 120)
-                    .cornerRadius(15)
-                Rectangle().foregroundStyle(.yellow)
-                    .frame(width: 150, height: 120)
-                    .cornerRadius(15)
-                Rectangle().foregroundStyle(.green)
-                    .frame(width: 150, height: 120)
-                    .cornerRadius(15)
+                Text("Test Text")
+                    .padding()
+                    .foregroundStyle(.white)
+                Spacer()
+                Button(action: {
+
+                }) {
+                    Image(systemName: "gearshape", variableValue: nil)
+                        .foregroundStyle(.white)
+                }
             }
+            .padding()
+            ScrollView(.horizontal) {
+                HStack {
+                    Rectangle().foregroundStyle(.red)
+                        .frame(width: 150, height: 120)
+                        .cornerRadius(15)
+                    Rectangle().foregroundStyle(.white)
+                        .frame(width: 150, height: 120)
+                        .cornerRadius(15)
+                    Rectangle().foregroundStyle(.yellow)
+                        .frame(width: 150, height: 120)
+                        .cornerRadius(15)
+                    Rectangle().foregroundStyle(.green)
+                        .frame(width: 150, height: 120)
+                        .cornerRadius(15)
+                }
+            }
+            .scrollIndicators(.hidden)
         }
-        .scrollIndicators(.hidden)
+        .background(.black)
     }
 }
 

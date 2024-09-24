@@ -16,6 +16,9 @@
 		B25126992C58ED77008B0D43 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25126982C58ED77008B0D43 /* NetworkService.swift */; };
 		B2B727462CA29F2000E15C9A /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B727452CA29F2000E15C9A /* InformationView.swift */; };
 		B2B727482CA2A72900E15C9A /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B727472CA2A72400E15C9A /* NetworkModel.swift */; };
+		B2B9E6412CA2E28F00D0608D /* DataSourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9E6402CA2E28A00D0608D /* DataSourceService.swift */; };
+		B2BB1AC92CA2E64800265059 /* DataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BB1AC82CA2E64400265059 /* DataSourceModel.swift */; };
+		B2DAD10D2CA2BB47005650D7 /* DecoderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DAD10C2CA2BB44005650D7 /* DecoderService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,9 @@
 		B25126982C58ED77008B0D43 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		B2B727452CA29F2000E15C9A /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		B2B727472CA2A72400E15C9A /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
+		B2B9E6402CA2E28A00D0608D /* DataSourceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceService.swift; sourceTree = "<group>"; };
+		B2BB1AC82CA2E64400265059 /* DataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModel.swift; sourceTree = "<group>"; };
+		B2DAD10C2CA2BB44005650D7 /* DecoderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,8 @@
 		B25126832C58B2DA008B0D43 /* spaceX */ = {
 			isa = PBXGroup;
 			children = (
+				B2B9E63F2CA2E27E00D0608D /* DatasourceService */,
+				B2DAD10B2CA2BB3B005650D7 /* DecoderService */,
 				B25126972C58ED67008B0D43 /* NetworkService */,
 				B25126842C58B2DA008B0D43 /* spaceXApp.swift */,
 				B25126862C58B2DA008B0D43 /* ContentView.swift */,
@@ -88,6 +96,23 @@
 				B25126982C58ED77008B0D43 /* NetworkService.swift */,
 			);
 			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		B2B9E63F2CA2E27E00D0608D /* DatasourceService */ = {
+			isa = PBXGroup;
+			children = (
+				B2BB1AC82CA2E64400265059 /* DataSourceModel.swift */,
+				B2B9E6402CA2E28A00D0608D /* DataSourceService.swift */,
+			);
+			path = DatasourceService;
+			sourceTree = "<group>";
+		};
+		B2DAD10B2CA2BB3B005650D7 /* DecoderService */ = {
+			isa = PBXGroup;
+			children = (
+				B2DAD10C2CA2BB44005650D7 /* DecoderService.swift */,
+			);
+			path = DecoderService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,8 +189,11 @@
 				B251268E2C58B2DC008B0D43 /* Persistence.swift in Sources */,
 				B25126872C58B2DA008B0D43 /* ContentView.swift in Sources */,
 				B2B727462CA29F2000E15C9A /* InformationView.swift in Sources */,
+				B2B9E6412CA2E28F00D0608D /* DataSourceService.swift in Sources */,
 				B25126852C58B2DA008B0D43 /* spaceXApp.swift in Sources */,
+				B2BB1AC92CA2E64800265059 /* DataSourceModel.swift in Sources */,
 				B2B727482CA2A72900E15C9A /* NetworkModel.swift in Sources */,
+				B2DAD10D2CA2BB47005650D7 /* DecoderService.swift in Sources */,
 				B25126912C58B2DC008B0D43 /* spaceX.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
