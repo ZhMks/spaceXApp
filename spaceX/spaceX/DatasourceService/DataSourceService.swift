@@ -47,52 +47,22 @@ final class DataSourceService: IDataSourceService {
         var responseArray: [ResponseModel] = []
 
         responseArray = networkModel.map({ model in
-            ResponseModel(height:  ResponseModelParam(meters: model.height.meters, feet: model.height.feet),
-                          diamter:  ResponseModelParam(meters: model.diamter.meters, feet: model.diamter.feet),
-                          engines: ResponseModelEngines(isp: ResponseModelIsp(seaLevel: model.engines.isp.seaLevel, vacuum: model.engines.isp.vacuum),
-                                                        thrustSeaLevel: ResponseModelThrust(kN: model.engines.thrustSeaLevel.kN, lbf: model.engines.thrustSeaLevel.lbf),
-                                                        thrustVacuum: ResponseModelThrust(kN: model.engines.thrustVacuum.kN, lbf: model.engines.thrustVacuum.lbf),
-                                                        number: model.engines.number,
-                                                        tupe: model.engines.tupe,
-                                                        version: model.engines.version,
-                                                        layout: model.engines.layout,
-                                                        engineLossMax: model.engines.engineLossMax,
-                                                        propellant: model.engines.propellant,
-                                                        secondPropellant: model.engines.secondPropellant,
-                                                        thrustToWeight: model.engines.thrustToWeight),
-                          firstStage: ResponseModelFirstStage(thrustSeaLevel: ResponseModelThrust(kN: model.firstStage.thrustSeaLevel.kN, lbf: model.firstStage.thrustSeaLevel.lbf),
-                                                              thrustVacuum: ResponseModelThrust(kN: model.firstStage.thrustVacuum.kN, lbf: model.firstStage.thrustVacuum.lbf),
-                                                              reusable: model.firstStage.reusable,
-                                                              engines: model.firstStage.engines,
-                                                              fuelAmountTons: model.firstStage.fuelAmountTons,
-                                                              burnTimeSeconds: model.firstStage.burnTimeSeconds),
-                          secondStage: ResponseModelSecondStage(thrust: ResponseModelThrust(kN: model.secondStage.thrust.kN, lbf: model.secondStage.thrust.lbf),
-                                                                payloads: ResponseModelPayloads(compositeFairing: ResponseModelFairing(height: ResponseModelParam(meters: model.secondStage.payloads.compositeFairing.height.meters,
-                                                                                                                                                                  feet: model.secondStage.payloads.compositeFairing.height.feet),
-                                                                                                                                       diameter: ResponseModelParam(meters: model.secondStage.payloads.compositeFairing.diameter.meters,
-                                                                                                                                                                    feet: model.secondStage.payloads.compositeFairing.diameter.feet)),
-                                                                                                option: model.secondStage.payloads.option),
-                                                                reusable: model.secondStage.reusable,
-                                                                engines: model.secondStage.engines,
-                                                                fueldAmountTons: model.secondStage.fueldAmountTons,
-                                                                burnTimeSeconds: model.secondStage.burnTimeSeconds),
-                          landingLegs: ResponseModelLegs(number: model.landingLegs.number, material: model.landingLegs.material),
-                          payloadWeight: model.payloadWeight.map({ payloadModel in
-                ResponseModelPayloadWeight(id: payloadModel.id, name: payloadModel.name, kg: payloadModel.kg, lb: payloadModel.lb)
+            ResponseModel(height: ResponseModelParam(meters: model.height.meters, feet: model.height.feet),
+                          diamter: ResponseModelParam(meters: model.diamter.meters, feet: model.diamter.feet),
+                          firstStage: ResponseModelFirstStage(engines: model.firstStage.engines, fuelAmountTons: model.firstStage.fuelAmountTons, burnTimeSeconds: model.firstStage.burnTimeSeconds),
+                          secondStage: ResponseModelSecondStage(engines: model.secondStage.engines, fueldAmountTons: model.secondStage.fueldAmountTons, burnTimeSeconds: model.secondStage.burnTimeSeconds),
+                          payloadWeight: model.payloadWeight.map({ payload in
+                ResponseModelPayloadWeight(id: payload.id, name: payload.name, kg: payload.kg, lb: payload.lb)
             }),
                           flickImages: model.flickImages,
                           name: model.name,
                           type: model.type,
-                          active: model.active,
-                          stages: model.stages,
-                          boosters: model.boosters,
                           costPerLaunch: model.costPerLaunch,
                           successratePct: model.successratePct,
                           firstFlight: model.firstFlight,
                           country: model.country,
                           company: model.company,
-                          description: model.description,
-                          wikipedia: model.wikipedia)
+                          description: model.description)
         })
         return responseArray
     }

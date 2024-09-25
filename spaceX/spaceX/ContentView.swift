@@ -11,6 +11,7 @@ import CoreData
 struct ContentView: View {
     private let infoView = InformationView()
     @State var isSelected = true
+    @State private var modelsArray: [ResponseModel] = []
 
     var body: some View {
         NavigationView {
@@ -30,21 +31,21 @@ struct ContentView: View {
                 )
                 .edgesIgnoringSafeArea(.top)
                 .sheet(isPresented: $isSelected, content: {
-                    InformationView()
-                        .frame(
-                            minWidth: 0,
-                            idealWidth: 450,
-                            maxWidth: 500,
-                            minHeight: 0,
-                            idealHeight: 450,
-                            maxHeight: 950
-                        )
-                        .background(.black)
-                        .cornerRadius(14.0)
-                        .presentationDetents([.fraction(0.7)])
-                        .ignoresSafeArea()
+                        InformationView()
+                            .frame(
+                                minWidth: 0,
+                                idealWidth: 450,
+                                maxWidth: 500,
+                                minHeight: 0,
+                                idealHeight: 600,
+                                maxHeight: 950
+                            )
+                            .background(.black)
+                            .cornerRadius(14.0)
+                            .presentationDetents([.fraction(0.7)])
+                            .ignoresSafeArea()
+                            .interactiveDismissDisabled(true)
                 })
-                .interactiveDismissDisabled(true)
             }
         }
         .onAppear(perform: {
@@ -56,7 +57,7 @@ struct ContentView: View {
                 dataSource.fetchData(urlString: url) { result in
                     switch result {
                     case .success(let responseModel):
-                        print(responseModel.count)
+                        self.modelsArray = responseModel
                     case .failure(let failure):
                         print(failure.localizedDescription)
                     }
