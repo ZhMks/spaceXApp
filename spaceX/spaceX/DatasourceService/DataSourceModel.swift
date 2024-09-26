@@ -8,49 +8,50 @@
 
 
 struct ResponseModel {
-    let height: ResponseModelParam
-    let diamter: ResponseModelParam
-    let firstStage: ResponseModelFirstStage
-    let secondStage: ResponseModelSecondStage
-    let payloadWeight: [ResponseModelPayloadWeight]
-    let flickImages: [String]
-    let name: String
-    let type: String
-    let costPerLaunch: Double
-    let successratePct: Double
-    let firstFlight: String
-    let country: String
-    let company: String
-    let description: String
+    var height: ResponseModelParam
+    var diamter: ResponseModelParam
+    var firstStage: ResponseModelFirstStage
+    var secondStage: ResponseModelSecondStage
+    var payloadWeight: [ResponseModelPayloadWeight]
+    var flickImages: [String]
+    var name: String
+    var type: String
+    var costPerLaunch: Double
+    var successratePct: Double
+    var firstFlight: String
+    var country: String
+    var company: String
+    var description: String
+    var mass: ResponseModelMass
 }
 
 struct ResponseModelParam {
-    let meters: Double?
-    let feet: Double?
+    var meters: Double?
+    var feet: Double?
 }
 
 struct ResponseModelMass {
-    let kg: Double?
-    let lb: Double?
+    var kg: Double?
+    var lb: Double?
 }
 
 struct ResponseModelFirstStage{
-    let engines: Int?
-    let fuelAmountTons: Double
-    let burnTimeSeconds: Double?
+    var engines: Int?
+    var fuelAmountTons: Double
+    var burnTimeSeconds: Double?
 }
 
 struct ResponseModelSecondStage {
-    let engines: Int?
-    let fueldAmountTons: Double?
-    let burnTimeSeconds: Double?
+    var engines: Int?
+    var fueldAmountTons: Double?
+    var burnTimeSeconds: Double?
 }
 
 
 struct ResponseModelPayloadWeight {
-    let id: String
-    let name: String
-    let kg: Double
-    let lb: Double
+    var id: String
+    var name: String
+    var kg: Double
+    var lb: Double
 }
 

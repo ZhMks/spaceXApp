@@ -62,7 +62,8 @@ final class DataSourceService: IDataSourceService {
                           firstFlight: model.firstFlight,
                           country: model.country,
                           company: model.company,
-                          description: model.description)
+                          description: model.description,
+                          mass: ResponseModelMass(kg: model.mass.kg, lb: model.mass.lb))
         })
         return responseArray
     }
