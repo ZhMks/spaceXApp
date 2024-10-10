@@ -5,7 +5,7 @@
 //  Created by Максим Жуин on 24.09.2024.
 //
 
-
+import SwiftUI
 
 struct ResponseModel {
     var height: ResponseModelParam

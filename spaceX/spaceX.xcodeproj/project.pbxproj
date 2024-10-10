@@ -14,7 +14,8 @@
 		B251268E2C58B2DC008B0D43 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = B251268D2C58B2DC008B0D43 /* Persistence.swift */; };
 		B25126912C58B2DC008B0D43 /* spaceX.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B251268F2C58B2DC008B0D43 /* spaceX.xcdatamodeld */; };
 		B25126992C58ED77008B0D43 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B25126982C58ED77008B0D43 /* NetworkService.swift */; };
-		B2B727462CA29F2000E15C9A /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B727452CA29F2000E15C9A /* InformationView.swift */; };
+		B27578802CB7BFEA00C1767D /* DetailInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B275787F2CB7BFE700C1767D /* DetailInfoView.swift */; };
+		B2A481752CAFCD9A008877D9 /* InformationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A481742CAFCD96008877D9 /* InformationViewModel.swift */; };
 		B2B727482CA2A72900E15C9A /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B727472CA2A72400E15C9A /* NetworkModel.swift */; };
 		B2B9E6412CA2E28F00D0608D /* DataSourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B9E6402CA2E28A00D0608D /* DataSourceService.swift */; };
 		B2BB1AC92CA2E64800265059 /* DataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BB1AC82CA2E64400265059 /* DataSourceModel.swift */; };
@@ -30,7 +31,8 @@
 		B251268D2C58B2DC008B0D43 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		B25126902C58B2DC008B0D43 /* spaceX.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = spaceX.xcdatamodel; sourceTree = "<group>"; };
 		B25126982C58ED77008B0D43 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		B2B727452CA29F2000E15C9A /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
+		B275787F2CB7BFE700C1767D /* DetailInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInfoView.swift; sourceTree = "<group>"; };
+		B2A481742CAFCD96008877D9 /* InformationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewModel.swift; sourceTree = "<group>"; };
 		B2B727472CA2A72400E15C9A /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		B2B9E6402CA2E28A00D0608D /* DataSourceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceService.swift; sourceTree = "<group>"; };
 		B2BB1AC82CA2E64400265059 /* DataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModel.swift; sourceTree = "<group>"; };
@@ -67,12 +69,11 @@
 		B25126832C58B2DA008B0D43 /* spaceX */ = {
 			isa = PBXGroup;
 			children = (
+				B275787D2CB7BFCE00C1767D /* Views */,
 				B2B9E63F2CA2E27E00D0608D /* DatasourceService */,
 				B2DAD10B2CA2BB3B005650D7 /* DecoderService */,
 				B25126972C58ED67008B0D43 /* NetworkService */,
 				B25126842C58B2DA008B0D43 /* spaceXApp.swift */,
-				B25126862C58B2DA008B0D43 /* ContentView.swift */,
-				B2B727452CA29F2000E15C9A /* InformationView.swift */,
 				B25126882C58B2DC008B0D43 /* Assets.xcassets */,
 				B251268D2C58B2DC008B0D43 /* Persistence.swift */,
 				B251268F2C58B2DC008B0D43 /* spaceX.xcdatamodeld */,
@@ -96,6 +97,24 @@
 				B25126982C58ED77008B0D43 /* NetworkService.swift */,
 			);
 			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		B275787D2CB7BFCE00C1767D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B275787F2CB7BFE700C1767D /* DetailInfoView.swift */,
+				B275787E2CB7BFDB00C1767D /* Model */,
+				B25126862C58B2DA008B0D43 /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B275787E2CB7BFDB00C1767D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B2A481742CAFCD96008877D9 /* InformationViewModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		B2B9E63F2CA2E27E00D0608D /* DatasourceService */ = {
@@ -186,9 +205,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				B25126992C58ED77008B0D43 /* NetworkService.swift in Sources */,
+				B27578802CB7BFEA00C1767D /* DetailInfoView.swift in Sources */,
 				B251268E2C58B2DC008B0D43 /* Persistence.swift in Sources */,
 				B25126872C58B2DA008B0D43 /* ContentView.swift in Sources */,
-				B2B727462CA29F2000E15C9A /* InformationView.swift in Sources */,
+				B2A481752CAFCD9A008877D9 /* InformationViewModel.swift in Sources */,
 				B2B9E6412CA2E28F00D0608D /* DataSourceService.swift in Sources */,
 				B25126852C58B2DA008B0D43 /* spaceXApp.swift in Sources */,
 				B2BB1AC92CA2E64800265059 /* DataSourceModel.swift in Sources */,
