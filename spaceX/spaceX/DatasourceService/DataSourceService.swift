@@ -15,8 +15,8 @@ protocol IDataSourceService: AnyObject {
 
 final class DataSourceService: IDataSourceService {
 
-    private let networkService: INetworkService
-    private let decoderService: IDecoderService
+     let networkService: INetworkService
+     let decoderService: IDecoderService
 
     init(networkService: any INetworkService, decoderService: any IDecoderService) {
         self.networkService = networkService
@@ -63,7 +63,7 @@ final class DataSourceService: IDataSourceService {
                           country: model.country,
                           company: model.company,
                           description: model.description,
-                          mass: ResponseModelMass(kg: model.mass.kg, lb: model.mass.lb))
+                          mass: ResponseModelMass(kg: model.mass.kg, lb: model.mass.lb), id: "main")
         })
         return responseArray
     }

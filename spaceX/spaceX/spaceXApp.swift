@@ -11,10 +11,11 @@ import SwiftUI
 struct spaceXApp: App {
     let persistenceController = PersistenceController.shared
 
+    var responseModel: [ResponseModel] = []
+
     var body: some Scene {
-        let viewModel = InformationViewModel(state: .kg)
         WindowGroup {
-            ContentView(viewModel: viewModel)
+            ContentView(onboardingModel: responseModel)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

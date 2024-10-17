@@ -23,6 +23,7 @@ struct ResponseModel {
     var company: String
     var description: String
     var mass: ResponseModelMass
+    var id: String
 }
 
 struct ResponseModelParam {

@@ -22,6 +22,7 @@ struct NetworkModel: Decodable {
     let company: String
     let description: String
     let mass: NetworkRocketMass
+    let id: String
 
     private enum CodingKeys: String, CodingKey {
         case height = "height"
@@ -39,6 +40,7 @@ struct NetworkModel: Decodable {
         case company = "company"
         case description = "description"
         case mass = "mass"
+        case id = "id"
     }
 }
 
