@@ -15,7 +15,6 @@ struct DetailInfoView: View {
     @State  var diameterState: DiameterModelState
     @State  var massState: MassModelState
     @State private var isSettingsAtive = false
-    @State private var isLauncesActive = false
 
     var body: some View {
         ScrollView {
@@ -40,15 +39,15 @@ struct DetailInfoView: View {
                 .padding(.bottom, 20)
                 Group {
                     ScrollView(.horizontal) {
-                        HStack {
+                        HStack(spacing: 5) {
                             ZStack {
                                 Rectangle()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 100, height: 100)
                                     .background(.gray)
                                     .opacity(0.6)
-                                    .cornerRadius(15.0)
+                                    .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.height.meters)")
+                                    Text("\(model.height.meters ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Высота, \(heightState.rawValue)")
@@ -59,12 +58,12 @@ struct DetailInfoView: View {
                             .padding(.trailing, 10)
                             ZStack {
                                 Rectangle()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 100, height: 100)
                                     .background(.gray)
                                     .opacity(0.6)
-                                    .cornerRadius(15.0)
+                                    .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.diamter.meters)")
+                                    Text("\(model.diamter.meters ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Диметр, \(diameterState.rawValue)")
@@ -75,12 +74,12 @@ struct DetailInfoView: View {
                             .padding(.trailing, 10)
                             ZStack {
                                 Rectangle()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 100, height: 100)
                                     .background(.gray)
                                     .opacity(0.6)
-                                    .cornerRadius(15.0)
+                                    .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.mass.kg)")
+                                    Text("\(model.mass.kg ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Масса, \(massState.rawValue)")
@@ -91,15 +90,15 @@ struct DetailInfoView: View {
                             .padding(.trailing, 10)
                             ZStack {
                                 Rectangle()
-                                    .frame(width: 80, height: 80)
+                                    .frame(width: 100, height: 100)
                                     .background(.gray)
                                     .opacity(0.6)
-                                    .cornerRadius(15.0)
+                                    .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.payloadWeight.first?.kg)")
+                                    Text("\(model.payloadWeight.first?.kg ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
-                                    Text("Полезная нагрузка")
+                                    Text("Нагрузка")
                                         .font(.caption2)
                                         .foregroundStyle(.white)
                                 }
@@ -111,36 +110,43 @@ struct DetailInfoView: View {
                     .scrollIndicators(.hidden)
                 }
                 Group {
-                    VStack {
+                    VStack(spacing: 5) {
                         HStack {
                             Text("Первый запуск")
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .padding(.leading, 10)
+                                .frame(width: 120, height: 20, alignment: .leading)
+                                .padding(.leading, 5)
+                                .padding(.trailing, 90)
                             Text(model.firstFlight)
                                 .foregroundStyle(.white)
                                 .font(.caption)
+                                .frame(width: 150, height: 20, alignment: .trailing)
+                                .padding(.trailing, 5)
                         }
                         HStack {
                             Text("Cтрана")
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .padding(.leading, 10)
-                                .padding(.top, 5)
+                                .frame(width: 100, height: 20, alignment: .leading)
+                                .padding(.leading, 15)
                             Text(model.country)
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing, 15)
                         }
                         HStack {
                             Text("Стоимость запуска")
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .padding(.leading, 10)
-                                .padding(.top, 5)
+                                .frame(width: 150, height: 20, alignment: .leading)
+                                .padding(.leading, 15)
                             Text("\(model.costPerLaunch.rounded())")
                                 .foregroundStyle(.white)
                                 .font(.caption)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing, 15)
                         }
                     }
                 }
@@ -149,89 +155,90 @@ struct DetailInfoView: View {
                     Text("ПЕРВАЯ СТУПЕНЬ")
                         .foregroundStyle(.white)
                         .font(.title2)
-                        .padding(.trailing, 155)
-                        .padding(.top, 25)
-                        .multilineTextAlignment(.leading)
-                    VStack {
+                        .frame(width: 190, height: 50, alignment: .leading)
+                        .padding(.trailing, 180)
+                    VStack(spacing: 5) {
                         HStack {
                             Text("Количество двигателей")
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .padding(.trailing, 130)
-                                .padding(.top, 5)
-                            Text("\(model.firstStage.engines)")
+                                .frame(width: 200, height: 20, alignment: .leading)
+                                .padding(.trailing, 140)
+                            Text("\(model.firstStage.engines ?? 0)")
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .multilineTextAlignment(.leading)
+                                .frame(width: 20, height: 20, alignment: .trailing)
                         }
                         HStack {
                             Text("Количество топлива")
+                                .frame(width: 120, height: 20, alignment: .leading)
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .padding(.trailing, 145)
-                                .padding(.top, 5)
+                                .padding(.leading, 15)
                             Text("\(model.firstStage.fuelAmountTons.rounded())")
                                 .foregroundStyle(.white)
                                 .font(.caption)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing, 5)
                         }
-                        HStack {
+                        HStack(spacing: 180) {
                             Text("Время сгорания")
+                                .frame(width: 120, height: 20, alignment: .leading)
                                 .foregroundStyle(.white)
                                 .font(.caption)
-                                .padding(.trailing, 155)
-                                .padding(.top, 5)
-                            Text("\(model.firstStage.burnTimeSeconds?.rounded())")
+                                .padding(.leading, 15)
+                            Text("\(model.firstStage.burnTimeSeconds?.rounded() ?? 0)")
                                 .foregroundStyle(.white)
                                 .font(.caption)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.trailing, 5)
                         }
                     }
                     Group {
                         Text("ВТОРАЯ СТУПЕНЬ")
                             .foregroundStyle(.white)
                             .font(.title2)
-                            .multilineTextAlignment(.leading)
-                            .padding(.trailing, 155)
-                            .padding(.top, 25)
-                        VStack {
+                            .frame(width: 190, height: 50, alignment: .leading)
+                            .padding(.trailing, 180)
+                        VStack(spacing: 5) {
                             HStack {
                                 Text("Количество двигателей")
                                     .foregroundStyle(.white)
                                     .font(.caption)
-                                    .padding(.trailing, 130)
-                                    .padding(.top, 5)
-                                Text("\(model.secondStage.engines)")
+                                    .frame(width: 200, height: 20, alignment: .leading)
+                                    .padding(.trailing, 140)
+                                Text("\(model.secondStage.engines ?? 0)")
                                     .foregroundStyle(.white)
                                     .font(.caption)
+                                    .frame(width: 20, height: 20, alignment: .trailing)
                             }
                             HStack {
                                 Text("Количество топлива")
+                                    .frame(width: 120, height: 20, alignment: .leading)
                                     .foregroundStyle(.white)
                                     .font(.caption)
-                                    .padding(.trailing, 133)
-                                    .padding(.top, 5)
-                                Text("\(model.secondStage.fueldAmountTons?.rounded())")
+                                    .padding(.leading, 15)
+                                Text("\(model.secondStage.fueldAmountTons?.rounded() ?? 0)")
                                     .foregroundStyle(.white)
                                     .font(.caption)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .padding(.trailing, 5)
                             }
                             HStack {
                                 Text("Время сгорания")
+                                    .frame(width: 120, height: 20, alignment: .leading)
                                     .foregroundStyle(.white)
                                     .font(.caption)
-                                    .padding(.trailing, 155)
-                                    .padding(.top, 5)
-                                Text("\(model.secondStage.burnTimeSeconds?.rounded())")
+                                    .padding(.leading, 15)
+                                Text("\(model.secondStage.burnTimeSeconds?.rounded() ?? 0)")
                                     .foregroundStyle(.white)
                                     .font(.caption)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .padding(.trailing, 5)
                             }
 
                         }
                     }
-                    NavigationLink(destination: LaunchesView(model: model), isActive: $isLauncesActive) {
-                        EmptyView()
-                    }
-                }
-                .onTapGesture {
-                    isLauncesActive = true
                 }
                 .sheet(isPresented: $isSettingsAtive, content: {
                     SettingsView(heightState: $heightState, diameterState: $diameterState, massState: $massState)
@@ -239,9 +246,6 @@ struct DetailInfoView: View {
             }
             .background(.black)
             .padding(.top, 30)
-        }
-        .onTapGesture {
-            isLauncesActive.toggle()
         }
     }
 

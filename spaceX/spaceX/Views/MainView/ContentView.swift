@@ -13,6 +13,8 @@ struct ContentView: View {
     @State var onboardingModel: [ResponseModel]
     @State private var isPresented = true
     @State private var viewIndex = 0
+    @State private var isLauncesActive = false
+    @State private var dataSource: DataSourceService?
 
 
     var body: some View {
@@ -35,17 +37,30 @@ struct ContentView: View {
                     .scrollIndicators(.hidden)
                 }
                 .padding(.top, 10)
-                .sheet(isPresented: $isPresented) {
-                    NavigationView {
+                .sheet(isPresented: $isPresented, onDismiss: {
+                    sheetViewIsDismissed()
+                }) {
+                    NavigationStack {
                         TabView(selection: $viewIndex) {
                             ForEach(0..<onboardingModel.count, id: \.self) { index in
                                 ScrollView(.vertical) {
-                                    DetailInfoView(model: onboardingModel[index], heightState: .feet, diameterState:.feet, massState: .kg)
-                                        .tag(index)
+                                    DetailInfoView(model: onboardingModel[index],
+                                                   heightState: .feet,
+                                                   diameterState:.feet,
+                                                   massState: .kg)
+                                    .tag(index)
                                 }
                             }
                         }
                         .background(.black)
+                        .navigationDestination(isPresented: $isLauncesActive) {
+                            if let dataSource = dataSource {
+                                LaunchesView(model: onboardingModel[viewIndex], dataSource: dataSource)
+                            }
+                        }
+                        .onTapGesture {
+                            isLauncesActive.toggle()
+                        }
                     }
                     .presentationDetents([.fraction(0.6)])
                     .tabViewStyle(.page)
@@ -53,24 +68,41 @@ struct ContentView: View {
                 }
             }
         }
+        .ignoresSafeArea()
         .onAppear {
+            createDataSource()
             Task(priority: .high) {
-                let networkService = NetworkService()
-                let decoderService = DecoderService()
-                let dataSource = DataSourceService(networkService: networkService, decoderService: decoderService)
-                let urlString = "https://api.spacexdata.com/v4/rockets"
-                dataSource.fetchData(urlString: urlString) { result in
-                    switch result {
-                    case .success(let success):
-                        print("Executed here")
-                        onboardingModel = success
-                    case .failure(let failure):
-                        print(failure.localizedDescription)
-                    }
-                }
+                fetchData()
             }
         }
         .statusBarHidden()
+    }
+
+    func sheetViewIsDismissed() {
+
+    }
+
+    private func createDataSource() {
+        let networkService = NetworkService()
+        let decoderService = DecoderService()
+        let dataSource = DataSourceService(networkService: networkService, decoderService: decoderService)
+        self.dataSource = dataSource
+    }
+
+    func fetchData() {
+        if let dataSource = dataSource {
+            dataSource.fetchRocketsData(urlString: .rocketsUrl) { result in
+                switch result {
+                case .success(let success):
+                    onboardingModel = success
+                    for model in onboardingModel {
+                        print("ModelRocket id: \(model.id)")
+                    }
+                case .failure(let failure):
+                    print(failure.localizedDescription)
+                }
+            }
+        }
     }
 }
 

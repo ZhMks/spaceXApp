@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-struct ResponseModel {
+protocol ResponseProtocol {
+
+}
+
+struct ResponseModel: ResponseProtocol {
     var height: ResponseModelParam
     var diamter: ResponseModelParam
     var firstStage: ResponseModelFirstStage
@@ -56,3 +60,10 @@ struct ResponseModelPayloadWeight {
     var lb: Double
 }
 
+
+struct LaunchesFlightModel: ResponseProtocol {
+    var name: String
+    var date: String
+    var success: Bool?
+    var id: String
+}

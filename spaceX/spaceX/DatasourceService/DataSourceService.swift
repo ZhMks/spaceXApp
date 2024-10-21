@@ -10,7 +10,8 @@ import SwiftUI
 
 protocol IDataSourceService: AnyObject {
     init(networkService: INetworkService, decoderService: IDecoderService)
-    func fetchData(urlString: String, completion: @escaping(Result<[ResponseModel], Error>) -> Void)
+    func fetchRocketsData(urlString: String, completion: @escaping(Result<[ResponseModel], Error>) -> Void)
+    func fetchLaunchesData(for id: String, urlString: String, completion: @escaping(Result<[LaunchesFlightModel], Error>) -> Void)
 }
 
 final class DataSourceService: IDataSourceService {
@@ -24,14 +25,17 @@ final class DataSourceService: IDataSourceService {
     }
 
 
-    func fetchData(urlString: String, completion: @escaping (Result<[ResponseModel], any Error>) -> Void) {
+    func fetchRocketsData(urlString: String, completion: @escaping (Result<[ResponseModel], any Error>) -> Void) {
         guard let url = URL(string: urlString) else { return }
-        networkService.fetchData(url: url) { result in
+        networkService.fetchData(url: url) { [weak self] result in
             switch result {
             case .success(let success):
                 do {
-                    let responseModel = try self.decoderService.decode(NetworkModel.self, from: success)
-                    completion(.success(self.convertData(networkModel: responseModel)))
+                    if let fetchedModel = try self?.decoderService.decode(NetworkModel.self, from: success) {
+                        if let resposneModel = self?.convertData(networkModel: fetchedModel) {
+                            completion(.success(resposneModel))
+                        }
+                    }
                 } catch {
                     completion(.failure(error))
                 }
@@ -63,7 +67,37 @@ final class DataSourceService: IDataSourceService {
                           country: model.country,
                           company: model.company,
                           description: model.description,
-                          mass: ResponseModelMass(kg: model.mass.kg, lb: model.mass.lb), id: "main")
+                          mass: ResponseModelMass(kg: model.mass.kg, lb: model.mass.lb), id: model.id)
+        })
+        return responseArray
+    }
+
+    func fetchLaunchesData(for id: String, urlString: String, completion: @escaping (Result<[LaunchesFlightModel], any Error>) -> Void) {
+        guard let url = URL(string: urlString) else { return }
+        networkService.fetchData(url: url) { [weak self] result in
+            switch result {
+            case .success(let success):
+                do {
+                    if let fetchedModel = try self?.decoderService.decode(LaunchesNetworkModel.self, from: success) {
+                        guard let responseModel = self?.convertLaunchesData(for: id, model: fetchedModel) else {
+                            completion(.success([]))
+                            return
+                        }
+                        completion(.success(responseModel))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let failure):
+                completion(.failure(failure))
+            }
+        }
+    }
+
+    private func convertLaunchesData(for id: String, model: [LaunchesNetworkModel]) -> [LaunchesFlightModel] {
+        var responseArray: [LaunchesFlightModel] = []
+        responseArray = model.map({ networkModel in
+            LaunchesFlightModel(name: networkModel.name, date: networkModel.date, success: networkModel.success, id: networkModel.rocketID)
         })
         return responseArray
     }

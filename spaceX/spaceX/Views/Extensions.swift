@@ -13,3 +13,9 @@ extension Double {
         return (self * divisor).rounded() / divisor
     }
 }
+
+
+extension String {
+    static let rocketsUrl = "https://api.spacexdata.com/v4/rockets"
+    static let launchestUrl = "https://api.spacexdata.com/v4/launches"
+}

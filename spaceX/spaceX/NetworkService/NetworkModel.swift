@@ -6,7 +6,7 @@
 //
 
 
-struct NetworkModel: Decodable {
+struct NetworkModel: Codable {
     let height: NetworkRocketParam
     let diamter: NetworkRocketParam
     let firstStage: NetworkRocketFirstStage
@@ -44,17 +44,17 @@ struct NetworkModel: Decodable {
     }
 }
 
-struct NetworkRocketParam: Decodable {
+struct NetworkRocketParam: Codable {
     let meters: Double?
     let feet: Double?
 }
 
-struct NetworkRocketMass: Decodable {
+struct NetworkRocketMass: Codable {
     let kg: Double?
     let lb: Double?
 }
 
-struct NetworkRocketFirstStage: Decodable {
+struct NetworkRocketFirstStage: Codable {
     let engines: Int?
     let fuelAmountTons: Double
     let burnTimeSeconds: Double?
@@ -66,7 +66,7 @@ struct NetworkRocketFirstStage: Decodable {
     }
 }
 
-struct NetworkRocketSecondStage: Decodable {
+struct NetworkRocketSecondStage: Codable {
     let engines: Int?
     let fueldAmountTons: Double?
     let burnTimeSeconds: Double?
@@ -78,10 +78,24 @@ struct NetworkRocketSecondStage: Decodable {
     }
 }
 
-struct NetworkRocketPayloadWeight: Decodable {
+struct NetworkRocketPayloadWeight: Codable {
     let id: String
     let name: String
     let kg: Double
     let lb: Double
 }
 
+
+struct LaunchesNetworkModel: Codable {
+    let name: String
+    let success: Bool?
+    let date: String
+    let rocketID: String
+
+    private enum CodingKeys: String, CodingKey  {
+        case name = "name"
+        case success = "success"
+        case date = "date_utc"
+        case rocketID = "rocket"
+    }
+}
