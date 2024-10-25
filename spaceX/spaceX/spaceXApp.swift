@@ -13,9 +13,13 @@ struct spaceXApp: App {
 
     var responseModel: [ResponseModel] = []
 
+
     var body: some Scene {
+        let networkService = NetworkService()
+        let decoderService = DecoderService()
+        let dataSource = DataSourceService(networkService: networkService, decoderService: decoderService)
         WindowGroup {
-            ContentView(onboardingModel: responseModel)
+            ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, heightState: .feet, massState: .kg, diameterState: .feet, isSettingsActive: false)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }

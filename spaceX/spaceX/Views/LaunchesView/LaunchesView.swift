@@ -14,61 +14,52 @@ struct LaunchesView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        ZStack {
-            Color.black
-                .edgesIgnoringSafeArea(.all)
-                .navigationBarBackButtonHidden(true)
-                .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(leading: Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    HStack {
-                        Image(systemName: "chevron.left")
-                            .foregroundStyle(.white)
-                        Text("Назад")
-                            .foregroundStyle(.white)
-                        Text("\(model.name)")
-                            .font(.title2)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(.white)
-                            .padding(.leading, 90)
-                    }
-                })
+        ScrollView(.vertical) {
             if let launchesModel = launchesModel {
+                if launchesModel.isEmpty {
+                    Text("NO DATA")
+                        .font(.title)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                }
                 ForEach(0..<launchesModel.count, id: \.self) { index in
                     let model = launchesModel[index]
-                    VStack(spacing: 10) {
-                        ZStack {
-                            Rectangle()
-                                .frame(width: 300, height: 80)
-                                .cornerRadius(30.0)
-                                .background(.gray)
-                                .opacity(0.6)
-                            HStack {
-                                VStack {
-                                    Text("\(model!.name)")
-                                        .font(.title2)
-                                        .foregroundStyle(.white)
-                                    Text("\(model!.date)")
-                                        .font(.title3)
-                                        .foregroundStyle(Color.secondary)
-                                }
-                                .padding()
-                                if model!.success! {
-                                    Image(systemName: "heart")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                } else {
-                                    Image(systemName: "gearshape")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                }
-                            }
+                    ZStack {
+                        RoundedRectangle(cornerSize: CGSize(width: 40, height: 40))
+                            .foregroundStyle(.gray)
+                        VStack(spacing: 15) {
+                            Text("\(model!.name)")
+                                .foregroundStyle(.white)
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                            Text(convertDateToNormalFormat(string: model?.date ?? ""))
+                                .foregroundStyle(.white)
+                                .font(.caption)
                         }
                     }
                 }
-            }
+            } 
         }
+        .background(content: {
+            Color.black.ignoresSafeArea()
+        })
+        .navigationBarBackButtonHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(leading: Button(action: {
+                presentationMode.wrappedValue.dismiss()
+            }) {
+                HStack {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(.white)
+                    Text("Назад")
+                        .foregroundStyle(.white)
+                    Text("\(model.name)")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                        .padding(.leading, 90)
+                }
+            })
         .onAppear {
             dataSource.fetchLaunchesData(for: model.id, urlString: .launchestUrl) { result in
                 switch result {
@@ -80,6 +71,16 @@ struct LaunchesView: View {
             }
         }
     }
+
+    private func convertDateToNormalFormat(string: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        guard let date = dateFormatter.date(from: string) else { return "Invalid date" }
+        dateFormatter.dateFormat = "MMMM dd, yyyy"
+        return dateFormatter.string(from: date)
+    }
+
 }
 
 struct LaunchesView_Previews: PreviewProvider {
@@ -96,3 +97,36 @@ struct LaunchesView_Previews: PreviewProvider {
     }
 }
 
+
+
+
+//Color.black
+//    .edgesIgnoringSafeArea(.all)
+//    .navigationBarBackButtonHidden(true)
+//    .navigationBarTitleDisplayMode(.inline)
+//    .navigationBarItems(leading: Button(action: {
+//        presentationMode.wrappedValue.dismiss()
+//    }) {
+//        HStack {
+//            Image(systemName: "chevron.left")
+//                .foregroundStyle(.white)
+//            Text("Назад")
+//                .foregroundStyle(.white)
+//            Text("\(model.name)")
+//                .font(.title2)
+//                .fontWeight(.semibold)
+//                .foregroundStyle(.white)
+//                .padding(.leading, 90)
+//        }
+//        .onAppear {
+//            dataSource.fetchLaunchesData(for: model.id, urlString: .launchestUrl) { result in
+//                switch result {
+//                case .success(let success):
+//                    launchesModel = success.filter({ $0.id == model.id })
+//                case .failure(let failure):
+//                    print(failure.localizedDescription)
+//                }
+//            }
+//        }
+//
+//    })

@@ -16,25 +16,61 @@ struct SettingsView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            HStack {
+        VStack {
+            HStack(spacing: 120) {
                 Text("Настройки")
-                    .font(.title2)
-                    .foregroundStyle(.white)
-                    .padding(.leading, 120)
-                Text("Закрыть")
-                    .font(.title2)
-                    .foregroundStyle(.white)
+                    .font(.title)
                     .fontWeight(.semibold)
-                    .onTapGesture {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    .padding(.leading, 80)
+                    .foregroundStyle(.white)
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Text("Назад")
+                        .foregroundStyle(.white)
+                }
             }
-            .frame(maxWidth: .infinity, alignment: .topLeading)
-            .padding()
+            VStack {
+                Picker("Height", selection: $heightState) {
+                    Text("meters").tag(0)
+                        .overlay(.white)
+                    Text("feet").tag(1)
+                        .tint(.white)
+                }
+                .pickerStyle(.segmented)
+                .background(.red)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
+                .frame(width: 150, height: 50)
+                Picker("Diameter", selection: $heightState) {
+                    Text("meters").tag(0)
+                        .overlay(.white)
+                    Text("feet").tag(1)
+                        .tint(.white)
+                }
+                .pickerStyle(.segmented)
+                .background(.red)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
+                .frame(width: 150, height: 40)
+                Picker("Mass", selection: $heightState) {
+                    Text("kg").tag(0)
+                        .overlay(.white)
+                    Text("lbs").tag(1)
+                        .tint(.white)
+                }
+                .pickerStyle(.segmented)
+                .background(.red)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
+                .frame(width: 150, height: 50)
+            }
         }
     }
 
+}
+
+struct LaunchesContentPreview: PreviewProvider {
+    static var previews: some View {
+        @State var heightModel: HeightModelState = .feet
+        @State var diameterModel: DiameterModelState = .meters
+        @State var massModel: MassModelState = .kg
+        SettingsView(heightState: $heightModel, diameterState: $diameterModel, massState: $massModel)
+    }
 }

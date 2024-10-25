@@ -15,6 +15,23 @@ struct ContentView: View {
     @State private var viewIndex = 0
     @State private var isLauncesActive = false
     @State private var dataSource: DataSourceService?
+    @State private var heightState: HeightModelState
+    @State private var massState: MassModelState
+    @State private var diameterState: DiameterModelState
+    @State private var isSettingsActive: Bool
+
+
+    init(onboardingModel: [ResponseModel], isPresented: Bool, viewIndex: Int = 0, isLauncesActive: Bool, dataSource: DataSourceService?, heightState: HeightModelState, massState: MassModelState, diameterState: DiameterModelState, isSettingsActive: Bool) {
+        self.onboardingModel = onboardingModel
+        self.isPresented = isPresented
+        self.viewIndex = viewIndex
+        self.isLauncesActive = isLauncesActive
+        self.dataSource = dataSource
+        self.heightState = heightState
+        self.massState = massState
+        self.diameterState = diameterState
+        self.isSettingsActive = isSettingsActive
+    }
 
 
     var body: some View {
@@ -44,10 +61,7 @@ struct ContentView: View {
                         TabView(selection: $viewIndex) {
                             ForEach(0..<onboardingModel.count, id: \.self) { index in
                                 ScrollView(.vertical) {
-                                    DetailInfoView(model: onboardingModel[index],
-                                                   heightState: .feet,
-                                                   diameterState:.feet,
-                                                   massState: .kg)
+                                    DetailInfoView(model: onboardingModel[viewIndex], heightState: $heightState, massState: $massState, diameterState: $diameterState, isSettingsActive: $isSettingsActive, isLaunchesActive: $isLauncesActive)
                                     .tag(index)
                                 }
                             }
@@ -58,9 +72,9 @@ struct ContentView: View {
                                 LaunchesView(model: onboardingModel[viewIndex], dataSource: dataSource)
                             }
                         }
-                        .onTapGesture {
-                            isLauncesActive.toggle()
-                        }
+                        .sheet(isPresented: $isSettingsActive, content: {
+                            SettingsView(heightState: $heightState, diameterState: $diameterState, massState: $massState)
+                        })
                     }
                     .presentationDetents([.fraction(0.6)])
                     .tabViewStyle(.page)
@@ -108,9 +122,18 @@ struct ContentView: View {
 
 
 
-#Preview {
-    var responseModel: [ResponseModel] = []
-    ContentView(onboardingModel: responseModel)
+struct ContentPreview: PreviewProvider {
+    static var previews: some View {
+        let responseModel: [ResponseModel] = []
+        @State var heightState: HeightModelState = .feet
+        @State var massState: MassModelState = .kg
+        @State var diameterState: DiameterModelState = .feet
+        @State var isSettingsActive = false
+        let networkservice = NetworkService()
+        let decoderService = DecoderService()
+        let dataSource: DataSourceService = DataSourceService(networkService: networkservice, decoderService: decoderService)
+        ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, heightState: heightState, massState: massState, diameterState: diameterState, isSettingsActive: isSettingsActive)
+    }
 }
 
 

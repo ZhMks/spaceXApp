@@ -10,24 +10,37 @@ struct DetailInfoView: View {
 
     var model: ResponseModel
 
-    @State private var isPresented = false
-    @State  var heightState: HeightModelState
-    @State  var diameterState: DiameterModelState
-    @State  var massState: MassModelState
-    @State private var isSettingsAtive = false
+    @Binding var heightState: HeightModelState
+    @Binding var massState: MassModelState
+    @Binding var diameterState: DiameterModelState
+    @Binding var isSettingsActive: Bool
+    @Binding var isLaunchesActive: Bool
 
     var body: some View {
         ScrollView {
             VStack {
-                HStack(spacing: 200) {
+                HStack(spacing: 50) {
                     Text(model.name)
                         .foregroundStyle(.white)
                         .fontWeight(.semibold)
                         .tracking(2.0)
                         .font(.title2)
                         .padding(.leading, 10)
+                        .padding()
                     Button {
-                        isSettingsAtive.toggle()
+                        isLaunchesActive.toggle()
+                    } label: {
+                        ZStack {
+                            Image("rocket")
+                                .resizable()
+                                .frame(width: 35, height: 35)
+                            Color.white.blendMode(.sourceAtop)
+                        }
+                        .drawingGroup(opaque: false)
+                    }
+                    .frame(width: 40, height: 40)
+                    Button {
+                        isSettingsActive.toggle()
                     } label: {
                         Image(systemName: "gearshape")
                             .resizable()
@@ -240,9 +253,6 @@ struct DetailInfoView: View {
                         }
                     }
                 }
-                .sheet(isPresented: $isSettingsAtive, content: {
-                    SettingsView(heightState: $heightState, diameterState: $diameterState, massState: $massState)
-                })
             }
             .background(.black)
             .padding(.top, 30)
@@ -255,6 +265,11 @@ struct DetailInfoView: View {
 
 #Preview {
     var responseModel = ResponseModel(height: ResponseModelParam(meters: 140.0, feet: 142.0), diamter: ResponseModelParam(meters: 122.0, feet: 105.0), firstStage: ResponseModelFirstStage(engines: 2, fuelAmountTons: 140.0, burnTimeSeconds: 10.0), secondStage: ResponseModelSecondStage(engines: 4, fueldAmountTons: 45.0, burnTimeSeconds: 34.0), payloadWeight: [ResponseModelPayloadWeight(id: "12", name: "Paylod", kg: 144.0, lb: 152.0)], flickImages: ["https://"], name: "NameFirst", type: "TypeRocket", costPerLaunch: 160.0, successratePct: 12.0, firstFlight: "12.05.1994", country: "USA", company: "NETFLIX", description: "Descr", mass: ResponseModelMass(kg: 144.0, lb: 152.0), id: "12345786")
+    @State var heightState: HeightModelState = .meters
+    @State var massState: MassModelState = .kg
+    @State var diameterState: DiameterModelState = .meters
+    @State var isSettingsActive = false
+    @State var isLaunchesActive = false
 
-    DetailInfoView(model: responseModel, heightState: .feet, diameterState: .feet, massState: .kg)
+    DetailInfoView(model: responseModel, heightState: $heightState, massState: $massState, diameterState: $diameterState, isSettingsActive: $isSettingsActive, isLaunchesActive: $isLaunchesActive)
 }
