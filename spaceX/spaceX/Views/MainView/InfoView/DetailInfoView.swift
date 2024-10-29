@@ -63,7 +63,7 @@ struct DetailInfoView: View {
                                     Text("\(model.height.meters ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
-                                    Text("Высота, \(heightState.rawValue)")
+                                    Text("Высота, \(heightState.description)")
                                         .font(.caption2)
                                         .foregroundStyle(.white)
                                 }
@@ -79,7 +79,7 @@ struct DetailInfoView: View {
                                     Text("\(model.diamter.meters ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
-                                    Text("Диметр, \(diameterState.rawValue)")
+                                    Text("Диметр, \(diameterState.description)")
                                         .font(.caption2)
                                         .foregroundStyle(.white)
                                 }
@@ -95,7 +95,7 @@ struct DetailInfoView: View {
                                     Text("\(model.mass.kg ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
-                                    Text("Масса, \(massState.rawValue)")
+                                    Text("Масса, \(massState.description)")
                                         .font(.caption2)
                                         .foregroundStyle(.white)
                                 }

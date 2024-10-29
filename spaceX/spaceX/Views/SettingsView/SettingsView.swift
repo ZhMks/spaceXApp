@@ -8,6 +8,7 @@
 import SwiftUI
 
 
+
 struct SettingsView: View {
 
     @Binding var heightState: HeightModelState
@@ -31,10 +32,9 @@ struct SettingsView: View {
             }
             VStack {
                 Picker("Height", selection: $heightState) {
-                    Text("meters").tag(0)
-                        .overlay(.white)
-                    Text("feet").tag(1)
-                        .tint(.white)
+                    ForEach(0..<HeightModelState.allCases, id: \.self) { unit in
+                        Text(unit.description).tag(unit)
+                    }
                 }
                 .pickerStyle(.segmented)
                 .background(.red)

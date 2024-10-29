@@ -21,6 +21,7 @@ struct LaunchesView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
+                        .frame(width: 500)
                 }
                 ForEach(0..<launchesModel.count, id: \.self) { index in
                     let model = launchesModel[index]

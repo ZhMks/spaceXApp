@@ -13,7 +13,7 @@ enum HeightModelState {
     case meters
 
 
-    var rawValue: String {
+    var description: String {
         switch self {
         case .feet:
             return "ft"
@@ -27,7 +27,7 @@ enum DiameterModelState {
     case feet
     case meters
 
-    var rawValue: String {
+    var description: String {
         switch self {
         case .feet:
             return "ft"
@@ -41,7 +41,7 @@ enum MassModelState {
     case kg
     case lbs
 
-    var rawValue: String {
+    var description: String {
         switch self {
         case .kg:
             return "kg"
