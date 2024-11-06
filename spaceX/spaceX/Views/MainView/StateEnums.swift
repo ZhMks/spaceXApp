@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-enum HeightModelState {
+enum HeightModelState: String, CaseIterable {
     case feet
     case meters
 
@@ -23,7 +23,7 @@ enum HeightModelState {
     }
 }
 
-enum DiameterModelState {
+enum DiameterModelState:String, CaseIterable {
     case feet
     case meters
 
@@ -37,7 +37,7 @@ enum DiameterModelState {
     }
 }
 
-enum MassModelState {
+enum MassModelState:String, CaseIterable {
     case kg
     case lbs
 

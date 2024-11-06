@@ -14,36 +14,72 @@ struct LaunchesView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        ScrollView(.vertical) {
-            if let launchesModel = launchesModel {
-                if launchesModel.isEmpty {
-                    Text("NO DATA")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                        .frame(width: 500)
-                }
-                ForEach(0..<launchesModel.count, id: \.self) { index in
-                    let model = launchesModel[index]
-                    ZStack {
-                        RoundedRectangle(cornerSize: CGSize(width: 40, height: 40))
-                            .foregroundStyle(.gray)
-                        VStack(spacing: 15) {
-                            Text("\(model!.name)")
-                                .foregroundStyle(.white)
-                                .font(.caption)
-                                .fontWeight(.semibold)
-                            Text(convertDateToNormalFormat(string: model?.date ?? ""))
-                                .foregroundStyle(.white)
-                                .font(.caption)
+        ZStack {
+            Color.black.ignoresSafeArea()
+            ScrollView(.vertical) {
+                if let launchesModel = launchesModel {
+                    if launchesModel.isEmpty {
+                        Text("NO DATA")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .frame(width: 500)
+                    }
+                    ForEach(0..<launchesModel.count, id: \.self) { index in
+                        let model = launchesModel[index]
+                        ZStack {
+                            RoundedRectangle(cornerSize: CGSize(width: 90, height: 40))
+                                .foregroundStyle(.gray)
+                                .frame(width: 300, height: 90)
+                            HStack {
+                                VStack(spacing: 15) {
+                                    Text("\(model!.name)")
+                                        .frame(width: 150, height: 30, alignment: .leading)
+                                        .font(.footnote)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white)
+                                    Text(convertDateToNormalFormat(string: model?.date ?? ""))
+                                        .frame(width: 150, height: 30, alignment: .leading)
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white)
+                                }
+                                .padding(.trailing, 40)
+                                ZStack {
+                                        Image("launch", bundle: nil)
+                                            .resizable()
+                                            .frame(width: 40, height: 40, alignment: .center)
+                                            .border(.red)
+                                            .padding(.vertical, 10)
+                                        switch model?.success {
+                                        case true:
+                                            Image(systemName: "checkmark")
+                                                .resizable()
+                                                .frame(width: 15, height: 15, alignment: .center)
+                                                .padding(.top, 20)
+                                                .padding(.leading, 30)
+                                                .foregroundStyle(.red)
+                                        case false:
+                                            Image(systemName: "xmark")
+                                                .frame(width: 15, height: 15, alignment: .center)
+                                                .padding(.top, 20)
+                                                .padding(.leading, 30)
+                                                .foregroundStyle(.red)
+                                        default:
+                                            Image(systemName: "checkmark")
+                                                .frame(width: 15, height: 15, alignment: .center)
+                                                .padding(.top, 20)
+                                                .padding(.leading, 30)
+                                                .foregroundStyle(.red)
+                                    }
+                                }
+                                .border(.blue)
+                            }
                         }
                     }
                 }
-            } 
+            }
         }
-        .background(content: {
-            Color.black.ignoresSafeArea()
-        })
         .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: Button(action: {

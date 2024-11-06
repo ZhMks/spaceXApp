@@ -10,67 +10,85 @@ import SwiftUI
 
 
 struct SettingsView: View {
-
+    
     @Binding var heightState: HeightModelState
     @Binding var diameterState: DiameterModelState
     @Binding var massState: MassModelState
     @Environment(\.presentationMode) var presentationMode
-
+    
     var body: some View {
         VStack {
             HStack(spacing: 120) {
                 Text("Настройки")
                     .font(.title)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(.black)
                 Button {
                     presentationMode.wrappedValue.dismiss()
                 } label: {
                     Text("Назад")
-                        .foregroundStyle(.white)
+                        .foregroundStyle(.black)
                 }
             }
             VStack {
-                Picker("Height", selection: $heightState) {
-                    ForEach(0..<HeightModelState.allCases, id: \.self) { unit in
-                        Text(unit.description).tag(unit)
+                HStack {
+                    Text("Высота")
+                        .frame(width: 80, height: 60, alignment: .leading)
+                        .font(.footnote)
+                        .foregroundStyle(.black)
+                        .padding(.leading, 15)
+                    Picker("Select an option", selection: $heightState) {
+                        ForEach(HeightModelState.allCases, id: \.self) { option in
+                            Text(option.rawValue).tag(option)
+                        }
                     }
+                    .pickerStyle(.segmented)
+                    .padding()
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
+                    .frame(width: 150, height: 50)
                 }
-                .pickerStyle(.segmented)
-                .background(.red)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
-                .frame(width: 150, height: 50)
-                Picker("Diameter", selection: $heightState) {
-                    Text("meters").tag(0)
-                        .overlay(.white)
-                    Text("feet").tag(1)
-                        .tint(.white)
+                HStack {
+                    Text("Диаметр")
+                        .frame(width: 80, height: 60, alignment: .leading)
+                        .font(.footnote)
+                        .foregroundStyle(.black)
+                        .padding(.leading, 15)
+                    Picker("Diameter", selection: $diameterState) {
+                        ForEach(DiameterModelState.allCases, id: \.self) { option in
+                            Text(option.rawValue).tag(option)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
+                    .frame(width: 150, height: 40)
                 }
-                .pickerStyle(.segmented)
-                .background(.red)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
-                .frame(width: 150, height: 40)
-                Picker("Mass", selection: $heightState) {
-                    Text("kg").tag(0)
-                        .overlay(.white)
-                    Text("lbs").tag(1)
-                        .tint(.white)
+                HStack {
+                    Text("Масса")
+                        .frame(width: 80, height: 60, alignment: .leading)
+                        .font(.footnote)
+                        .foregroundStyle(.black)
+                        .padding(.leading, 15)
+                    Picker("Mass", selection: $massState) {
+                        ForEach(MassModelState.allCases, id: \.self) { option in
+                            Text(option.rawValue).tag(option)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
+                    .frame(width: 150, height: 50)
+                    .border(.green)
                 }
-                .pickerStyle(.segmented)
-                .background(.red)
-                .clipShape(RoundedRectangle(cornerRadius: 14, style: .circular))
-                .frame(width: 150, height: 50)
             }
         }
     }
-
+    
 }
 
 struct LaunchesContentPreview: PreviewProvider {
+    @State static var heightState: HeightModelState = .feet
+    @State static var massState: MassModelState = .kg
+    @State static var diameterState: DiameterModelState = .feet
     static var previews: some View {
-        @State var heightModel: HeightModelState = .feet
-        @State var diameterModel: DiameterModelState = .meters
-        @State var massModel: MassModelState = .kg
-        SettingsView(heightState: $heightModel, diameterState: $diameterModel, massState: $massModel)
+        SettingsView(heightState: $heightState, diameterState: $diameterState, massState: $massState)
     }
 }

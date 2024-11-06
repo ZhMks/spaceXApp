@@ -194,7 +194,7 @@ struct DetailInfoView: View {
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                 .padding(.trailing, 5)
                         }
-                        HStack(spacing: 180) {
+                        HStack() {
                             Text("Время сгорания")
                                 .frame(width: 120, height: 20, alignment: .leading)
                                 .foregroundStyle(.white)

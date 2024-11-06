@@ -15,22 +15,22 @@ struct ContentView: View {
     @State private var viewIndex = 0
     @State private var isLauncesActive = false
     @State private var dataSource: DataSourceService?
-    @State private var heightState: HeightModelState
-    @State private var massState: MassModelState
-    @State private var diameterState: DiameterModelState
+    @State var heightState: HeightModelState
+    @State var massState: MassModelState
+    @State var diameterState: DiameterModelState
     @State private var isSettingsActive: Bool
 
 
-    init(onboardingModel: [ResponseModel], isPresented: Bool, viewIndex: Int = 0, isLauncesActive: Bool, dataSource: DataSourceService?, heightState: HeightModelState, massState: MassModelState, diameterState: DiameterModelState, isSettingsActive: Bool) {
+    init(onboardingModel: [ResponseModel], isPresented: Bool, viewIndex: Int = 0, isLauncesActive: Bool, dataSource: DataSourceService?, isSettingsActive: Bool, heighModelState: HeightModelState, massModelState: MassModelState, diameterModelState: DiameterModelState) {
         self.onboardingModel = onboardingModel
         self.isPresented = isPresented
         self.viewIndex = viewIndex
         self.isLauncesActive = isLauncesActive
         self.dataSource = dataSource
-        self.heightState = heightState
-        self.massState = massState
-        self.diameterState = diameterState
         self.isSettingsActive = isSettingsActive
+        self.heightState = heighModelState
+        self.massState = massModelState
+        self.diameterState = diameterModelState
     }
 
 
@@ -125,14 +125,14 @@ struct ContentView: View {
 struct ContentPreview: PreviewProvider {
     static var previews: some View {
         let responseModel: [ResponseModel] = []
-        @State var heightState: HeightModelState = .feet
-        @State var massState: MassModelState = .kg
-        @State var diameterState: DiameterModelState = .feet
         @State var isSettingsActive = false
         let networkservice = NetworkService()
         let decoderService = DecoderService()
         let dataSource: DataSourceService = DataSourceService(networkService: networkservice, decoderService: decoderService)
-        ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, heightState: heightState, massState: massState, diameterState: diameterState, isSettingsActive: isSettingsActive)
+        @State var heightState: HeightModelState = .feet
+        @State var massState: MassModelState = .kg
+        @State var diamaterState: DiameterModelState = .feet
+        ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, isSettingsActive: false, heighModelState: heightState, massModelState: massState, diameterModelState: diamaterState)
     }
 }
 

@@ -18,8 +18,11 @@ struct spaceXApp: App {
         let networkService = NetworkService()
         let decoderService = DecoderService()
         let dataSource = DataSourceService(networkService: networkService, decoderService: decoderService)
+        @State var heightState: HeightModelState = .feet
+        @State var massState: MassModelState = .kg
+        @State var diameterState: DiameterModelState = .feet
         WindowGroup {
-            ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, heightState: .feet, massState: .kg, diameterState: .feet, isSettingsActive: false)
+            ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, isSettingsActive: false, heighModelState: heightState, massModelState: massState, diameterModelState: diameterState)
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
