@@ -49,31 +49,46 @@ struct LaunchesView: View {
                                         Image("launch", bundle: nil)
                                             .resizable()
                                             .frame(width: 40, height: 40, alignment: .center)
-                                            .border(.red)
                                             .padding(.vertical, 10)
                                         switch model?.success {
                                         case true:
                                             Image(systemName: "checkmark")
                                                 .resizable()
                                                 .frame(width: 15, height: 15, alignment: .center)
+                                                .cornerRadius(15.0)
                                                 .padding(.top, 20)
                                                 .padding(.leading, 30)
-                                                .foregroundStyle(.red)
+                                                .foregroundStyle(.white)
+                                                .background {
+                                                    Circle()
+                                                        .foregroundStyle(.green)
+                                                }
                                         case false:
                                             Image(systemName: "xmark")
+                                                .resizable()
                                                 .frame(width: 15, height: 15, alignment: .center)
+                                                .cornerRadius(15.0)
                                                 .padding(.top, 20)
                                                 .padding(.leading, 30)
-                                                .foregroundStyle(.red)
+                                                .foregroundStyle(.white)
+                                                .background {
+                                                    Circle()
+                                                        .foregroundStyle(.red)
+                                                }
                                         default:
                                             Image(systemName: "checkmark")
+                                                .resizable()
                                                 .frame(width: 15, height: 15, alignment: .center)
+                                                .cornerRadius(15.0)
                                                 .padding(.top, 20)
                                                 .padding(.leading, 30)
-                                                .foregroundStyle(.red)
+                                                .foregroundStyle(.white)
+                                                .background {
+                                                    Circle()
+                                                        .foregroundStyle(.red)
+                                                }
                                     }
                                 }
-                                .border(.blue)
                             }
                         }
                     }

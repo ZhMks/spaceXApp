@@ -9,29 +9,29 @@ import SwiftUI
 
 
 enum HeightModelState: String, CaseIterable {
-    case feet
-    case meters
+    case ft
+    case m
 
 
     var description: String {
         switch self {
-        case .feet:
+        case .ft:
             return "ft"
-        case .meters:
+        case .m:
             return "m"
         }
     }
 }
 
 enum DiameterModelState:String, CaseIterable {
-    case feet
-    case meters
+    case ft
+    case m
 
     var description: String {
         switch self {
-        case .feet:
+        case .ft:
             return "ft"
-        case .meters:
+        case .m:
             return "m"
         }
     }
@@ -39,13 +39,13 @@ enum DiameterModelState:String, CaseIterable {
 
 enum MassModelState:String, CaseIterable {
     case kg
-    case lbs
+    case lb
 
     var description: String {
         switch self {
         case .kg:
             return "kg"
-        case .lbs:
+        case .lb:
             return "lbs"
         }
     }

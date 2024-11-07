@@ -110,7 +110,7 @@ struct ContentView: View {
                 case .success(let success):
                     onboardingModel = success
                     for model in onboardingModel {
-                        print("ModelRocket id: \(model.id)")
+                        print("ModelRocket id: \(model.name), diamter: \(model.diamter.feet)")
                     }
                 case .failure(let failure):
                     print(failure.localizedDescription)
@@ -129,9 +129,9 @@ struct ContentPreview: PreviewProvider {
         let networkservice = NetworkService()
         let decoderService = DecoderService()
         let dataSource: DataSourceService = DataSourceService(networkService: networkservice, decoderService: decoderService)
-        @State var heightState: HeightModelState = .feet
+        @State var heightState: HeightModelState = .ft
         @State var massState: MassModelState = .kg
-        @State var diamaterState: DiameterModelState = .feet
+        @State var diamaterState: DiameterModelState = .ft
         ContentView(onboardingModel: responseModel, isPresented: true, isLauncesActive: false, dataSource: dataSource, isSettingsActive: false, heighModelState: heightState, massModelState: massState, diameterModelState: diamaterState)
     }
 }

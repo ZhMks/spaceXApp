@@ -8,6 +8,7 @@ import SwiftUI
 
 struct DetailInfoView: View {
 
+    // MARK: - Properties
     var model: ResponseModel
 
     @Binding var heightState: HeightModelState
@@ -15,7 +16,9 @@ struct DetailInfoView: View {
     @Binding var diameterState: DiameterModelState
     @Binding var isSettingsActive: Bool
     @Binding var isLaunchesActive: Bool
+    
 
+    // MARK: - View
     var body: some View {
         ScrollView {
             VStack {
@@ -47,7 +50,7 @@ struct DetailInfoView: View {
                             .frame(width: 35, height: 35)
                             .foregroundStyle(.white)
                     }
-
+                    
                 }
                 .padding(.bottom, 20)
                 Group {
@@ -60,7 +63,7 @@ struct DetailInfoView: View {
                                     .opacity(0.6)
                                     .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.height.meters ?? 0)")
+                                    Text("\(model.height.feet ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Высота, \(heightState.description)")
@@ -76,7 +79,7 @@ struct DetailInfoView: View {
                                     .opacity(0.6)
                                     .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.diamter.meters ?? 0)")
+                                    Text("\(model.diamter.feet ?? 0)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Диметр, \(diameterState.description)")
@@ -249,25 +252,63 @@ struct DetailInfoView: View {
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                     .padding(.trailing, 5)
                             }
-
+                            
                         }
                     }
                 }
             }
+            .onChange(of: heightState) { oldValue, newValue in
+                let newHeight = convertHeight(state: newValue, value: 100.0)
+                print(newHeight)
+            }
+            .onChange(of: massState, { oldValue, newValue in
+                print()
+            })
+            .onChange(of: diameterState, { oldValue, newValue in
+                print()
+            })
             .background(.black)
             .padding(.top, 30)
         }
     }
-
+    
+    // MARK: - Functions
+    private func convertHeight(state: HeightModelState, value: Double) -> Double {
+        let value = 12.0
+        switch state {
+        case .ft:
+            return value * 3.128
+        case .m:
+            return value / 3.128
+        }
+    }
+    
+    private func convertMass(sate: MassModelState, value: Double) -> Double {
+        switch sate {
+        case .kg:
+            return value * 2
+        case .lb:
+            return value / 2
+        }
+    }
+    
+    private func convertDiameter(state: DiameterModelState, value: Double) -> Double {
+        switch state {
+        case .ft:
+            return value * 2
+        case .m:
+            return value / 2
+        }
+    }
 }
 
 
 
 #Preview {
     var responseModel = ResponseModel(height: ResponseModelParam(meters: 140.0, feet: 142.0), diamter: ResponseModelParam(meters: 122.0, feet: 105.0), firstStage: ResponseModelFirstStage(engines: 2, fuelAmountTons: 140.0, burnTimeSeconds: 10.0), secondStage: ResponseModelSecondStage(engines: 4, fueldAmountTons: 45.0, burnTimeSeconds: 34.0), payloadWeight: [ResponseModelPayloadWeight(id: "12", name: "Paylod", kg: 144.0, lb: 152.0)], flickImages: ["https://"], name: "NameFirst", type: "TypeRocket", costPerLaunch: 160.0, successratePct: 12.0, firstFlight: "12.05.1994", country: "USA", company: "NETFLIX", description: "Descr", mass: ResponseModelMass(kg: 144.0, lb: 152.0), id: "12345786")
-    @State var heightState: HeightModelState = .meters
+    @State var heightState: HeightModelState = .m
     @State var massState: MassModelState = .kg
-    @State var diameterState: DiameterModelState = .meters
+    @State var diameterState: DiameterModelState = .m
     @State var isSettingsActive = false
     @State var isLaunchesActive = false
 
