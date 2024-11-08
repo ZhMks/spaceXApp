@@ -51,8 +51,10 @@ struct ContentView: View {
                         }
                     }
                     .background(.clear)
+                    .ignoresSafeArea()
                     .scrollIndicators(.hidden)
                 }
+                .zIndex(0)
                 .padding(.top, 10)
                 .sheet(isPresented: $isPresented, onDismiss: {
                     sheetViewIsDismissed()
@@ -66,6 +68,7 @@ struct ContentView: View {
                                 }
                             }
                         }
+                        .zIndex(1)
                         .background(.black)
                         .navigationDestination(isPresented: $isLauncesActive) {
                             if let dataSource = dataSource {
@@ -109,9 +112,6 @@ struct ContentView: View {
                 switch result {
                 case .success(let success):
                     onboardingModel = success
-                    for model in onboardingModel {
-                        print("ModelRocket id: \(model.name), diamter: \(model.diamter.feet)")
-                    }
                 case .failure(let failure):
                     print(failure.localizedDescription)
                 }

@@ -6,6 +6,11 @@
 //
 import SwiftUI
 
+private enum ChangeState {
+    case firstLaunch
+    case stage
+}
+
 struct DetailInfoView: View {
 
     // MARK: - Properties
@@ -20,6 +25,17 @@ struct DetailInfoView: View {
 
     // MARK: - View
     var body: some View {
+        let firstLaunch = convertDateToNormalFormat(string: model.firstFlight)
+        let price = removeZeros(double: model.costPerLaunch, for: .firstLaunch)
+        let firstStageNumberOfFuel = removeZeros(double: model.firstStage.fuelAmountTons,for: .stage)
+        let firstStageBurningTime = removeZeros(double: model.firstStage.burnTimeSeconds ?? 0,for: .stage)
+        let secondStageNumberOfFuel = removeZeros(double: model.secondStage.fueldAmountTons ?? 0, for: .stage)
+        let secondStageBurningTime = removeZeros(double: model.secondStage.burnTimeSeconds ?? 0,for: .stage)
+        
+        @State  var rocketHeight = model.height.feet ?? 0
+        @State var rocketMass = model.mass.lb ?? 0
+        @State var rocketDiameter = model.diamter.feet ?? 0
+        
         ScrollView {
             VStack {
                 HStack(spacing: 50) {
@@ -63,7 +79,7 @@ struct DetailInfoView: View {
                                     .opacity(0.6)
                                     .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.height.feet ?? 0)")
+                                    Text("\(rocketHeight)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Высота, \(heightState.description)")
@@ -79,10 +95,10 @@ struct DetailInfoView: View {
                                     .opacity(0.6)
                                     .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.diamter.feet ?? 0)")
+                                    Text("\(rocketDiameter)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
-                                    Text("Диметр, \(diameterState.description)")
+                                    Text("Диаметр, \(diameterState.description)")
                                         .font(.caption2)
                                         .foregroundStyle(.white)
                                 }
@@ -95,7 +111,7 @@ struct DetailInfoView: View {
                                     .opacity(0.6)
                                     .cornerRadius(30.0)
                                 VStack {
-                                    Text("\(model.mass.kg ?? 0)")
+                                    Text("\(rocketMass)")
                                         .font(.caption)
                                         .foregroundStyle(.white)
                                     Text("Масса, \(massState.description)")
@@ -134,7 +150,7 @@ struct DetailInfoView: View {
                                 .frame(width: 120, height: 20, alignment: .leading)
                                 .padding(.leading, 5)
                                 .padding(.trailing, 90)
-                            Text(model.firstFlight)
+                            Text(firstLaunch)
                                 .foregroundStyle(.white)
                                 .font(.caption)
                                 .frame(width: 150, height: 20, alignment: .trailing)
@@ -158,7 +174,7 @@ struct DetailInfoView: View {
                                 .font(.caption)
                                 .frame(width: 150, height: 20, alignment: .leading)
                                 .padding(.leading, 15)
-                            Text("\(model.costPerLaunch.rounded())")
+                            Text(price)
                                 .foregroundStyle(.white)
                                 .font(.caption)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -191,7 +207,7 @@ struct DetailInfoView: View {
                                 .foregroundStyle(.white)
                                 .font(.caption)
                                 .padding(.leading, 15)
-                            Text("\(model.firstStage.fuelAmountTons.rounded())")
+                            Text(firstStageNumberOfFuel)
                                 .foregroundStyle(.white)
                                 .font(.caption)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -203,7 +219,7 @@ struct DetailInfoView: View {
                                 .foregroundStyle(.white)
                                 .font(.caption)
                                 .padding(.leading, 15)
-                            Text("\(model.firstStage.burnTimeSeconds?.rounded() ?? 0)")
+                            Text(firstStageBurningTime)
                                 .foregroundStyle(.white)
                                 .font(.caption)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
@@ -234,7 +250,7 @@ struct DetailInfoView: View {
                                     .foregroundStyle(.white)
                                     .font(.caption)
                                     .padding(.leading, 15)
-                                Text("\(model.secondStage.fueldAmountTons?.rounded() ?? 0)")
+                                Text(secondStageNumberOfFuel)
                                     .foregroundStyle(.white)
                                     .font(.caption)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -246,7 +262,7 @@ struct DetailInfoView: View {
                                     .foregroundStyle(.white)
                                     .font(.caption)
                                     .padding(.leading, 15)
-                                Text("\(model.secondStage.burnTimeSeconds?.rounded() ?? 0)")
+                                Text(secondStageBurningTime)
                                     .foregroundStyle(.white)
                                     .font(.caption)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -258,14 +274,22 @@ struct DetailInfoView: View {
                 }
             }
             .onChange(of: heightState) { oldValue, newValue in
-                let newHeight = convertHeight(state: newValue, value: 100.0)
+                let newHeight = convertHeight(state: newValue, value: rocketHeight).rounded(.towardZero)
                 print(newHeight)
+                rocketHeight = newHeight
+                print(rocketHeight)
             }
             .onChange(of: massState, { oldValue, newValue in
-                print()
+//                let newMass = convertMass(state: newValue, value: rocketMass).rounded(.towardZero)
+//                print(newMass)
+//                rocketMass = newMass
+//                print(rocketMass)
             })
             .onChange(of: diameterState, { oldValue, newValue in
-                print()
+//                let newDiameter = convertDiameter(state: newValue, value: rocketDiameter).rounded(.towardZero)
+//                print(newDiameter)
+//                rocketDiameter = newDiameter
+//                print(rocketDiameter)
             })
             .background(.black)
             .padding(.top, 30)
@@ -274,30 +298,51 @@ struct DetailInfoView: View {
     
     // MARK: - Functions
     private func convertHeight(state: HeightModelState, value: Double) -> Double {
-        let value = 12.0
         switch state {
         case .ft:
-            return value * 3.128
+            return value * 3.28084
         case .m:
-            return value / 3.128
+            return value / 3.28084
         }
     }
     
     private func convertMass(sate: MassModelState, value: Double) -> Double {
         switch sate {
         case .kg:
-            return value * 2
+            return value * 0.453592
         case .lb:
-            return value / 2
+            return value / 0.453592
         }
     }
     
     private func convertDiameter(state: DiameterModelState, value: Double) -> Double {
         switch state {
         case .ft:
-            return value * 2
+            return value * 3.28084
         case .m:
-            return value / 2
+            return value / 3.28084
+        }
+    }
+    
+    private func convertDateToNormalFormat(string: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.timeZone = TimeZone(abbreviation: "UTC")
+        guard let date = dateFormatter.date(from: string) else { return "Invalid date" }
+        dateFormatter.dateFormat = "MMMM dd, yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
+    private func removeZeros(double: Double, for state: ChangeState ) -> String {
+        switch state {
+        case .firstLaunch:
+            let number = String(double).components(separatedBy: "0").first!
+            let convertedString = "$\(number) млн"
+            return convertedString
+        case .stage:
+            let number = String(double).components(separatedBy: ".0").first!
+            let convertedString = "\(number) tons"
+            return convertedString
         }
     }
 }
